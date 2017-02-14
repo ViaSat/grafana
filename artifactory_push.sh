@@ -83,5 +83,3 @@ curl -k -u $ARTIFACTORY_USERNAME:$ARTIFACTORY_PASSWORD -X PUT \
 	--write-out "\n HTTP code %{http_code}\nUploaded bytes %{size_upload}\n" \
 	-T $RPM_ARTIFACT_PATH \
 	${RPM_ARTIFACT_URL}
-
-#[[ $status != 0 ]] && echo "push via curl failed with exit code $status" && exit 1

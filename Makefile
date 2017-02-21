@@ -1,3 +1,5 @@
+$(sh '[[ $(pwd) == "$GOPATH/src/github.com/grafana/grafana ]] || (echo "you are not in $GOPATH/src/github.com/grafana/grafana!" && exit 1)')
+
 all: deps build
 
 deps-go:
@@ -31,7 +33,7 @@ package:
 	go run build.go package
 
 push:
-	artifactory_push.sh
+	./artifactory_push.sh
 
 attach-upstream:
 	git remote -v | grep upstream && echo "upstream fork already attached" || git remote add upstream https://github.com/grafana/grafana.git

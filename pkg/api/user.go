@@ -218,7 +218,7 @@ func SearchUsers(c *middleware.Context) Response {
 	return Json(200, query.Result.Users)
 }
 
-// GET /api/paged-users
+// GET /api/search
 func SearchUsersWithPaging(c *middleware.Context) Response {
 	query, err := searchUser(c)
 	if err != nil {
@@ -239,7 +239,9 @@ func searchUser(c *middleware.Context) (*m.SearchUsersQuery, error) {
 		page = 1
 	}
 
-	query := &m.SearchUsersQuery{Query: "", Page: page, Limit: perPage}
+	searchQuery := c.Query("query")
+
+	query := &m.SearchUsersQuery{Query: searchQuery, Page: page, Limit: perPage}
 	if err := bus.Dispatch(query); err != nil {
 		return nil, err
 	}

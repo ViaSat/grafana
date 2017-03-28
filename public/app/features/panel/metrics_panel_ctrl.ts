@@ -90,11 +90,10 @@ class MetricsPanelCtrl extends PanelCtrl {
     delete this.error;
     this.loading = true;
 
-    this.updateTimeRange();
-
     // load datasource service
     this.setTimeQueryStart();
     this.datasourceSrv.get(this.panel.datasource)
+    .then(this.updateTimeRange.bind(this))
     .then(this.issueQueries.bind(this))
     .then(this.handleQueryResult.bind(this))
     .catch(err => {
@@ -121,7 +120,8 @@ class MetricsPanelCtrl extends PanelCtrl {
     this.timing.queryEnd = new Date().getTime();
   }
 
-  updateTimeRange() {
+  updateTimeRange(datasource?) {
+    this.datasource = datasource || this.datasource;
     this.range = this.timeSrv.timeRange();
     this.rangeRaw = this.range.raw;
 
@@ -134,6 +134,8 @@ class MetricsPanelCtrl extends PanelCtrl {
     }
 
     this.calculateInterval();
+
+    return this.datasource;
   };
 
   calculateInterval() {
